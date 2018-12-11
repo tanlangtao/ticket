@@ -1,0 +1,158 @@
+.RechargeBox{
+    height: 100%;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    //字体公共类
+    .withDrawCashBox_child1{
+        height: 15.7%;
+        width: 100%;
+        position: relative;
+        :nth-child(1){
+            position: absolute;
+            left: 1%;
+            top: 10%;
+            width: 6%;
+            height: 75%;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        .withDrawCashBox_child_title{
+            width: 32.8%;
+            height: 88%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin: 0 auto;
+            
+            :nth-child(1){
+                position: relative;
+                width: 24%;
+                height: 70%;
+                margin: auto;
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+        }
+    }
+    .withDrawCashBox_child2{
+        position: relative;
+        width: 100%;
+        height: 81%;
+        padding-top: 1%;
+        box-sizing: border-box;
+        .withDrawCashBox_child2_nav{
+            position: relative;
+            float: left;
+            width: 17.6%;
+            height: 87%;
+            padding-top: 0%;
+            div{
+                position: relative;
+                height: 18%;
+                width: 85%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-size: contain;
+                background-repeat: no-repeat;
+                margin-top: 5%;
+            }
+            .cur{
+                transform: scale(1.16,1);
+                transform-origin:left center;
+                background-repeat: no-repeat;
+                img{
+                    width: 90%;
+                    margin-right: 10%;
+                }
+            }
+        }
+        .withDrawCashBox_content{
+            position: relative;
+            float: left;
+            width: 80.5%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            filter:Alpha(opacity=60);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            .withDrawCashBox_inner_box{
+                position: relative;
+                background: rgba(217, 248, 251, 255);
+                border-radius: 7px;
+                width: 97.8%;
+                height: 96%;
+                opacity: 1;
+                box-sizing: border-box;
+                padding: 2%;
+                box-shadow: 5px 0 2px rgba(187, 214, 217, 255) inset,
+                -5px 0 2px rgba(187, 214, 217, 255) inset,
+                0px 5px 2px rgba(187, 214, 217, 255) inset,
+                5px -5px 2px rgba(187, 214, 217, 255) inset,
+            }
+        }
+    }
+  
+    .Alert-container{
+        position: fixed;
+        top: 0%;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index:200;
+        background: rgba(0,0,0,0) !important;/* 兼容ie几不知道，好像ie5 */
+        filter:Alpha(opacity=0);
+    }
+    .Alert-child-container{
+        position: relative;
+        width: 30%;
+        height: 14%;
+        margin: auto;
+        top: 40%;
+        z-index: 250; /*z-index要放在父元素之上 */
+        background-size:contain;
+        background-repeat: no-repeat;
+        background:#1e1531;
+        display: flex;
+        align-items: center;
+        padding-top: 0;
+        border-radius: 5px ;
+        opacity: 0.9;
+    }
+    .Alert-child{
+        position: relative;
+        top: 0%;
+        width: 55%;
+        margin-left: 5%;
+        height: 100%;
+        border-radius: 5px;
+        float: left;
+        z-index: 300; /*z-index要放在父元素之上 */
+        text-align: center;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .Alert-btn{
+        float: left;
+        width: 35%;
+        height: 50%;
+        position: relative;
+        text-align: center;
+        :nth-child(1){
+            width: 100%;
+            height: 100%;
+            background-size:contain;
+            background-repeat: no-repeat;
+            float: left;
+            background: rgba(0, 152, 255, 255);
+            color:white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}

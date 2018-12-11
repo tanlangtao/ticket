@@ -1,0 +1,37 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/Cellar/node/11.3.0_1/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'build' ]
+2 info using npm@6.4.1
+3 info using node@v11.3.0
+4 verbose run-script [ 'prebuild', 'build', 'postbuild' ]
+5 info lifecycle my-app@0.1.0~prebuild: my-app@0.1.0
+6 info lifecycle my-app@0.1.0~build: my-app@0.1.0
+7 verbose lifecycle my-app@0.1.0~build: unsafe-perm in lifecycle true
+8 verbose lifecycle my-app@0.1.0~build: PATH: /usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/tanlangtao/Desktop/recharge-cli/my-app/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/tanlangtao/Library/Android/sdk/tools:/Users/tanlangtao/Library/Android/sdk/tools/bin:/Users/tanlangtao/Library/Android/sdk/platform-tools:/Users/tanlangtao/Library/Android/sdk/emulator:/Users/tanlangtao/Library/Android/sdk/tools:/Users/tanlangtao/Library/Android/sdk/tools/bin:/Users/tanlangtao/Library/Android/sdk/platform-tools:/Users/tanlangtao/Library/Android/sdk/emulator
+9 verbose lifecycle my-app@0.1.0~build: CWD: /Users/tanlangtao/Desktop/recharge-cli/my-app
+10 silly lifecycle my-app@0.1.0~build: Args: [ '-c', 'node scripts/build.js' ]
+11 silly lifecycle my-app@0.1.0~build: Returned: code: 1  signal: null
+12 info lifecycle my-app@0.1.0~build: Failed to exec build script
+13 verbose stack Error: my-app@0.1.0 build: `node scripts/build.js`
+13 verbose stack Exit status 1
+13 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/index.js:301:16)
+13 verbose stack     at EventEmitter.emit (events.js:182:13)
+13 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/lib/spawn.js:55:14)
+13 verbose stack     at ChildProcess.emit (events.js:182:13)
+13 verbose stack     at maybeClose (internal/child_process.js:978:16)
+13 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:265:5)
+14 verbose pkgid my-app@0.1.0
+15 verbose cwd /Users/tanlangtao/Desktop/recharge-cli/my-app
+16 verbose Darwin 17.7.0
+17 verbose argv "/usr/local/Cellar/node/11.3.0_1/bin/node" "/usr/local/bin/npm" "run" "build"
+18 verbose node v11.3.0
+19 verbose npm  v6.4.1
+20 error code ELIFECYCLE
+21 error errno 1
+22 error my-app@0.1.0 build: `node scripts/build.js`
+22 error Exit status 1
+23 error Failed at the my-app@0.1.0 build script.
+23 error This is probably not a problem with npm. There is likely additional logging output above.
+24 verbose exit [ 1, true ]

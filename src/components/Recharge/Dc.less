@@ -1,0 +1,269 @@
+
+.dcBody{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    left: 2%;
+    .dcP1{
+        width: 96%;
+        height: 8%;
+        position: relative;
+        left: 0%;
+        top: 2%;
+        color: rgba(34, 58, 132, 255);  
+    }
+    .userInput{
+        position: relative;
+        left: 0%;
+        top:5%;
+        height: 15%;
+        width: 60%;
+        div{
+            height: 100%;
+            width: 100%;
+            background-size:contain;
+            background-repeat: no-repeat;
+            input{
+                width: 90%;
+                float: left;
+                height: 80%;
+                font-size: 15px;
+                opacity: 1;
+                border-radius: 5px;
+                background: transparent;
+                position: relative;
+                color: white;
+                left: 4%;
+                top: 4%;
+                border: transparent;
+                outline: none;
+            } 
+        }
+        .deleBtn{
+            width: 5.5%;
+            height: 40%;
+            position: absolute;
+            right: 4%;
+            top: 23%;
+            img{
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    .dcP2{
+        height: 10%;
+        position: absolute;
+        left: 0%;
+        top:30%;
+        color: red;
+    }
+    .czBtn{
+        position: absolute;
+        left: 60%;
+        top:13%;
+        width: 26%;
+        height: 14%;
+        float: left;
+        border-radius: 5%;
+        background-size:contain;
+        background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px; 
+        color: rgba(188, 100, 20, 255);
+        font-weight: bold;
+        span{
+            margin-bottom: 2%;
+        }
+    }
+    .dcP3{
+        position: absolute;
+        padding: 10px;
+        box-sizing: border-box;
+        top:40%;
+        left: 0;
+        width: 96%;
+        height: 38%;
+        text-align: start;
+        background: rgba(194, 229, 255, 255);
+        font-family: "Yuanti SC";
+        color: rgba(34, 58, 132, 255);  
+    }
+}
+.czBtn2{
+    width: 20%;
+    height: 17%;
+    position: absolute;
+    right: 2%;
+    bottom: 2%;
+    border-radius: 5%;
+    background-size:contain;
+    background-repeat: no-repeat;
+}
+
+.div-container{
+    position: fixed;
+    top: 0%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index:200;
+    background: rgba(0,0,0,0.5) !important;/* 兼容ie几不知道，好像ie5 */
+    background:#000;
+    filter:Alpha(opacity=60);
+}
+/*设置div-child的父元素主要是将要此元素的父元素透明特性继承过来，故div-child不会半透明，而是不透明，解决了父元素透明，子元素也透明的bug */
+.div-child-container{
+    position: relative;
+    width: 56%;
+    height: 60%;
+    margin: auto;
+    top: 20%;
+    z-index: 250; /*z-index要放在父元素之上 */
+    background-size:contain;
+    background-repeat: no-repeat;
+}
+.div-child{
+    position: relative;
+    top: 22%;
+    width: 90%;
+    height: 45%;
+    box-shadow: 0 5px 4px 0px rgba(129,149,187,255);
+    border-radius: 10px;
+    margin: auto;
+    z-index: 300; /*z-index要放在父元素之上 */
+    text-align: center;
+    background: rgba(239, 243, 246, 1);
+    .div-child_child1{
+        position: relative;
+        top: 10%;
+        width: 75%;
+        height: 40%;
+        margin: auto;
+        background-position: left;
+        background-size:contain;
+        background-repeat: no-repeat;
+        text-align: start;
+        padding-left: 13%;
+        color: rgba(229, 78, 52, 255);
+        display: flex;
+        font-size: 14px;
+        align-items: center;
+    }
+    .div-child_child2{
+        padding: 0;
+        position: relative;
+        top: 7%;
+        width: 70%;
+        height: 30%;
+        margin: auto;
+        margin-top: 2%;
+        :nth-child(1){
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            width: 60%;
+            float: left;
+            text-align: center;
+            padding: 0;
+        }
+        :nth-child(2){
+            height: 100%;
+            display: flex;
+            align-items: center;
+            top: 0;
+            float: left;
+            text-align: start;
+            width: 30%;
+            font-size: 14px;
+            color: transparent;  
+            -webkit-text-stroke: 1px rgba(155, 93, 16, 255); 
+
+        }
+    }
+}
+.my-btn{
+    width: 90%;
+    height: 16%;
+    position: relative;
+    top: 28%;
+    margin: auto;
+    text-align: center;
+    :nth-child(1){
+        margin-left: 20%;
+        width: 20%;
+        height: 100%;
+        background-size:contain;
+        background-repeat: no-repeat;
+        float: left;
+        
+    }
+    :nth-child(2){
+        margin-left: 20%;
+        width: 20%;
+        height: 100%;
+        background-size:contain;
+        background-repeat: no-repeat;
+        float: left;
+    }
+}
+.line-container{
+    position: fixed;
+    top: 0%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index:200;
+    background: rgba(0,0,0,0.5) !important;/* 兼容ie几不知道，好像ie5 */
+    background:#000;
+    filter:Alpha(opacity=60);
+}
+/*设置div-child的父元素主要是将要此元素的父元素透明特性继承过来，故div-child不会半透明，而是不透明，解决了父元素透明，子元素也透明的bug */
+.line-child-container{
+    position: relative;
+    width: 60%;
+    height: 60%;
+    margin: auto;
+    top: 20%;
+    z-index: 250; /*z-index要放在父元素之上 */
+    background-size:contain;
+    background-repeat: no-repeat;
+}
+.line-child{
+    position: relative;
+    top: 22%;
+    width: 90%;
+    height: 45%;
+    box-shadow: 0 5px 4px 0px rgba(129,149,187,255);
+    border-radius: 10px;
+    margin: auto;
+    z-index: 300; /*z-index要放在父元素之上 */
+    text-align: center;
+    background: rgba(239, 243, 246, 1);
+    text-align: center;
+    color: rgba(101, 41, 156, 255);
+    padding-top: 10%;
+    img{
+        position: absolute;
+        left: 8%;
+        top: 30%;
+    }
+}
+.line-btn{
+    width: 90%;
+    height: 16%;
+    position: relative;
+    top: 28%;
+    margin: auto;
+    text-align: center;
+    :nth-child(1){
+        margin-left: 40%;
+        width: 20%;
+        height: 100%;
+        background-size:contain;
+        background-repeat: no-repeat;
+    }
+}
