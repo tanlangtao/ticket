@@ -1,0 +1,17 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/Cellar/node/11.3.0_1/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'start' ]
+2 info using npm@6.4.1
+3 info using node@v11.3.0
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info lifecycle my-app@0.1.0~prestart: my-app@0.1.0
+6 info lifecycle my-app@0.1.0~start: my-app@0.1.0
+7 verbose lifecycle my-app@0.1.0~start: unsafe-perm in lifecycle true
+8 verbose lifecycle my-app@0.1.0~start: PATH: /usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/tanlangtao/Desktop/recharge-cli/my-app/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/tanlangtao/Library/Android/sdk/tools:/Users/tanlangtao/Library/Android/sdk/tools/bin:/Users/tanlangtao/Library/Android/sdk/platform-tools:/Users/tanlangtao/Library/Android/sdk/emulator:/Users/tanlangtao/Library/Android/sdk/tools:/Users/tanlangtao/Library/Android/sdk/tools/bin:/Users/tanlangtao/Library/Android/sdk/platform-tools:/Users/tanlangtao/Library/Android/sdk/emulator
+9 verbose lifecycle my-app@0.1.0~start: CWD: /Users/tanlangtao/Desktop/recharge-cli/my-app
+10 silly lifecycle my-app@0.1.0~start: Args: [ '-c', 'cross-env PORT=9999 node scripts/start.js' ]
+11 timing npm Completed in 9911299ms
+12 error cb() never called!
+13 error This is an error with npm itself. Please report this error at:
+14 error <https://npm.community>
