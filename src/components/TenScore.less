@@ -37,7 +37,7 @@
         display: flex;
         justify-content: flex-start;
         .icon_title{
-            width: 200px;
+            width: 250px;
             height: 100px;
             position: absolute;
             left: 0;
@@ -128,7 +128,7 @@
                         color: rgb(119, 119, 119);
                     }
                     .box-row2{
-                        height: 40%;
+                        height: 50%;
                         display: flex;
                         justify-content: center;
                         box-sizing: border-box;
@@ -136,26 +136,29 @@
                             margin-top: 2%;
                             list-style: none;
                             width: 90%;
-                            height: 65%;
+                            height: 80%;
                             display: flex;
                             flex-wrap: wrap;
                             li{
-                                width: 10%;
-                                height: 100%;
+                                width: 5%;
+                                height: 33%;
                                 background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100%  100%;
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
-                                font-size: 30px;
+                                font-size: 20px;
                                 font-weight: bold;
                                 text-shadow: 1px 2px 0px black;
                                 color: white;
+                                span{
+                                    margin-right: 3px;
+                                }
                             }
                         }
                     }
                     .box-row3{
                         width: 100%;
-                        height: 50%;
+                        height: 40%;
                         background-size: contain;
                         background-repeat: no-repeat;
                         display: flex;
@@ -190,7 +193,8 @@
                                     flex-direction: column;
                                     :nth-child(1){
                                         width: 100%;
-                                        height: 60%;
+                                        margin-top: 10%;
+                                        height: 50%;
                                         color: rgb(113, 180, 6);
                                         font-size: 25px;
                                         font-weight: bold;
@@ -209,7 +213,7 @@
             }
             .content-box2{
                 width: 94%;
-                height: 15%;
+                height: 10%;
                 margin:0 auto;
                 margin-top: 30px;
                 margin-bottom: 30px;
@@ -260,11 +264,11 @@
             }
             .content-box3{
                 width: 94%;
-                height: 45%;
+                height: 50%;
                 margin: 0 auto;
                 .content-box3-title{
                     width: 100%;
-                    height: 8%;
+                    height: 6%;
                     background: #f4f4f4;
                     border: 1px solid #e3e3e3;
                     box-sizing: border-box;
@@ -294,7 +298,7 @@
                         text-align: center;
                     }
                     :nth-child(2){
-                        height: 74%;
+                        height: 90%;
                         width: 70%;
                         ul{
                             list-style: none;
@@ -303,16 +307,19 @@
                             display: flex;
                             flex-wrap: wrap;
                             li{
-                                width: 10%;
-                                height: 100%;
+                                width: 5%;
+                                height: 33%;
                                 background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100%  100%;
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
-                                font-size: 25px;
+                                font-size: 15px;
                                 font-weight: bold;
                                 text-shadow: 1px 2px 0px black;
                                 color: white;
+                                span{
+                                    margin-right: 3px;
+                                }
                             }
                         }
                     }
@@ -336,6 +343,42 @@
                 }
                 .content-box3-list:nth-child(11){
                     border: 0px;
+                }
+                .content-box3-page{
+                    width: 100%;
+                    display: flex;
+                    font-size: 20px;
+                    height: 40px;
+                    button:0;
+                    align-items: center;
+                    justify-content: center;
+                    margin-top: 20px;
+                    .pageUp{
+                        display: inline-block;
+                        width: 30px;
+                        height: 30px;
+                    }
+                    .minPage{
+                        display: inline-block;
+                        width: 50px;
+                        height: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .maxPage{
+                         display: inline-block;
+                         width: 50px;
+                         height: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .pageDown{
+                        display: inline-block;
+                        width: 30px;
+                        height: 30px;
+                    }
                 }
             }
         }
