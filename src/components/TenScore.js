@@ -1,39 +1,16 @@
 import React, {Component} from 'react';
 import '../App.less';
 import './TenScore.less'
-
-function creatDate() {
-    var year = [];
-    var month = [];
-    var days = [];
-    for (var i = 2018; i <= nowYear; i++) {
-        year.push(i);
-    }
-    for (var j = 1; j <= 12; j++) {
-        month.push(j)
-    }
-    for (var x = 1; x <= 31; x++) {
-        days.push(x)
-    }
-    return {
-        year: year,
-        month: month,
-        days: days
-    }
-}
+import Socket from "lows";
+import Config from '../lib/Config';
 
 var nowYear = new Date().getFullYear();
 var nowMonth = new Date().getMonth() + 1;
 var nowDay = new Date().getDate();
 var nowHour = new Date().getHours();
-var dateResults = creatDate();
 
-function formatDuring(countDown) {
-    let h = parseInt(Number(countDown) / 60 / 60);
-    let m = parseInt(Number(countDown) / 60 % 60);
-    let s = parseInt(Number(countDown) / 60 % 60);
-    return `${h <= 0 ? '00' : (h < 10 ? '0' + h : h)}:${m <= 0 ? '00' : (m < 10 ? '0' + m : m)}:${s <= 0 ? '00' : (s < 10 ? '0' + s : s)}`;
-}
+var dateResults = Config.creatDate(nowYear);
+
 
 var timeArr = []
 // eslint-disable-next-line
@@ -41,54 +18,13 @@ var min = 3600;
 for (var i = 0, j = 1; i < 24; i++, j++) {
     timeArr.push({'minTime': min * i, 'maxTime': min * j - 1});
 }
-
 class TenScore extends Component {
     constructor() {
         super()
         this.state = {
+            after_second:30-((Date.now()/1000)>>0)%30
+            ,
             results: {
-                "next_time": "2019-01-10 02:17:00",
-                "next_num": "20190110-1714",
-                "latest_num": "6109461094",
-                "latest_time": "2019-01-10 02:16:30",
-                "next_second": 18,
-                "history": [{
-                    "num": "20190110-1713",
-                    "openTime": "2019-01-10 02:16:30",
-                    "result": "0123456789012345678901234567890123456789012345678901"
-                }, {
-                    "num": "20190110-1712",
-                    "openTime": "2019-01-10 02:16:00",
-                    "result": "0123456789012345678901234567890123456789012345678901"
-                }, {
-                    "num": "20190110-1711",
-                    "openTime": "2019-01-10 02:15:30",
-                    "result": "6338861094"
-                }, {
-                    "num": "20190110-1710",
-                    "openTime": "2019-01-10 02:15:00",
-                    "result": "6516861094"
-                }, {
-                    "num": "20190110-1709",
-                    "openTime": "2019-01-10 02:14:30",
-                    "result": "3385261094"
-                }, {
-                    "num": "20190110-1708",
-                    "openTime": "2019-01-10 02:14:00",
-                    "result": "5344061094"
-                }, {
-                    "num": "20190110-1707",
-                    "openTime": "2019-01-10 02:13:30",
-                    "result": "1307061094"
-                }, {
-                    "num": "20190110-1706",
-                    "openTime": "2019-01-10 02:13:00",
-                    "result": "8870861094"
-                }, {
-                    "num": "20190110-1705",
-                    "openTime": "2019-01-10 02:12:30",
-                    "result": "3695161094"
-                }, {"num": "20190110-1704", "openTime": "2019-01-10 02:12:00", "result": "0943061094"}]
             },
             selectYear: '',
             selectMonth: '',
@@ -97,8 +33,8 @@ class TenScore extends Component {
             minPage:1,
             maxPage:12
         }
+       
     }
-
      splitNumber(number) {
         var str = number
         var arr = []
@@ -109,8 +45,29 @@ class TenScore extends Component {
     }
 
     componentDidMount() {
+        let socket = new Socket({
+            host: "http://lotterywebserver.0351sxzc.com",
+            port: 80,
+            path: "/lotteryWebServer"
+        });
+        
+        socket.addListener("lottery-begin", (e, data) => {
+            console.log("begin", data);
+            this.setState({
+                after_second:data.after_second
+            })
+        });
+        
+        socket.addListener("lottery-open", (e, data) => {
+            console.log("open", data);
+            this.setState({
+                results:data
+            })
+        });
+        
+        socket.start();
+        
         this.setState({
-            cutDown: this.state.results.next_second,
             selectYear: nowYear,
             selectMonth: nowMonth,
             selectDay: nowDay,
@@ -118,7 +75,7 @@ class TenScore extends Component {
         //定时器
         this.timer = setInterval(() => {
             this.setState({
-                cutDown: this.state.cutDown - 1
+                after_second: this.state.after_second - 1
             })
         }, 1000)
         const {results} = this.state;
@@ -126,10 +83,10 @@ class TenScore extends Component {
             return null;
         }
     }
-
     componentWillUpdate(a, b) {
         // 年月日联动的判断
         // eslint-disable-next-line
+       
         if (b.selectYear == nowYear) {
             var month = []
             for (var i = 1; i <= nowMonth; i++) {
@@ -197,9 +154,6 @@ class TenScore extends Component {
         }
         //关闭定时器
         // eslint-disable-next-line
-        if (b.cutDown == 0) {
-            clearInterval(this.timer)
-        }
     }
 
     componentWillUnmount() {
@@ -214,7 +168,13 @@ class TenScore extends Component {
     getDate() {
 
     }
-
+    shouldComponentUpdate(){
+        if(!this.results){
+            return false;
+        }else{
+            return true;
+        }
+    }
     render() {
         var {latest_time, latest_num, history} = this.state.results;
         latest_num = '1234567891234567891234567891234567891234567891234567'
@@ -229,28 +189,28 @@ class TenScore extends Component {
                         // }}
                     ></h1>
 
-                    {/*下拉选择*/}
-                    {/*<div className="selectBox"*/}
-                    {/*     onMouseOver={()=>{*/}
-                    {/*        document.getElementById('jiantou').style.backgroundImage="url("+process.env.PUBLIC_URL+"/images/arrow_Down2.png)"*/}
-                    {/*    }}*/}
-                    {/*    onMouseLeave={()=>{*/}
-                    {/*        document.getElementById('jiantou').style.backgroundImage="url("+process.env.PUBLIC_URL+"/images/arrow_Down.png)"*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    <p>Monaco Super10*/}
-                    {/*        <i id='jiantou' style={{backgroundImage:"url("+process.env.PUBLIC_URL+"/images/arrow_Down.png)"}}>*/}
-                    {/*        </i>*/}
-                    {/*    </p>*/}
-                    {/*    <ul id="selectUl"> */}
-                    {/*        <li onClick={()=>{*/}
-                    {/*                window.location.hash="/Chanceux10"*/}
-                    {/*            }}*/}
-                    {/*                // eslint-disable-next-line */}
-                    {/*            ><a href="javascript:;" selectid='li1'>Monaco Chanceux5</a>*/}
-                    {/*        </li>*/}
-                    {/*    </ul> */}
-                    {/*</div>*/}
+                    {/* 下拉选择 */}
+                    {/* <div className="selectBox"
+                        onMouseOver={()=>{
+                            document.getElementById('jiantou').style.backgroundImage="url("+process.env.PUBLIC_URL+"/images/arrow_Down2.png)"
+                        }}
+                        onMouseLeave={()=>{
+                            document.getElementById('jiantou').style.backgroundImage="url("+process.env.PUBLIC_URL+"/images/arrow_Down.png)"
+                        }}
+                    >
+                        <p>Monaco Super10
+                            <i id='jiantou' style={{backgroundImage:"url("+process.env.PUBLIC_URL+"/images/arrow_Down.png)"}}>
+                            </i>
+                        </p>
+                        <ul id="selectUl">
+                            <li onClick={()=>{
+                                    window.location.hash="/Chanceux10"
+                                }}
+                                    // eslint-disable-next-line 
+                                ><a href="javascript:;" selectid='li1'>Monaco Chanceux5</a>
+                            </li>
+                        </ul> 
+                    </div> */}
 
 
                     <div className='App-gongGao'>Ce site ne offrit que le service abonnement, ne fournit pas les
@@ -319,7 +279,7 @@ class TenScore extends Component {
                                                     <span>mins</span>
                                                 </li>
                                                 <li>
-                                                    <span>{this.state.cutDown >= 10 ? this.state.cutDown : '0' + this.state.cutDown}</span>
+                                                    <span>{this.state.after_second >= 10 ? this.state.after_second : '0' + this.state.after_second}</span>
                                                     <span>secs</span>
                                                 </li>
                                             </ul>
@@ -381,14 +341,18 @@ class TenScore extends Component {
                                         {
                                             timeArr.map((item, index) => {
                                                 return <option key={index}
-                                                               value={item.minTime + ',' + item.maxTime}>{formatDuring(item.minTime) + '-' + formatDuring(item.maxTime)}</option>
+                                                               value={item.minTime + ',' + item.maxTime}>{Config.formatDuring(item.minTime) + '-' + Config.formatDuring(item.maxTime)}</option>
                                             })
                                         }
                                     </select>
                                     <div id="Rechercher"
                                          onMouseDown={() => {
-                                             document.getElementById('Rechercher').style.transform = 'scale(0.9)'
-                                             console.log(this.state.selectTime)
+                                             document.getElementById('Rechercher').style.transform = 'scale(0.9)';
+                                             let min = `${this.state.selectYear}-${this.state.selectMonth}-${this.state.selectDay} ${Config.formatDuring(this.state.selectTime[0])}`.replace(/-/g,'/');
+                                            let startTime = new Date(min).getTime();
+                                             let max = `${this.state.selectYear}-${this.state.selectMonth}-${this.state.selectDay} ${Config.formatDuring(this.state.selectTime[1])}`.replace(/-/g,'/');
+                                             let endTime = new Date(max).getTime();
+                                             console.log(startTime,endTime)
                                          }}
                                          onMouseUp={() => {
                                              document.getElementById('Rechercher').style.transform = 'scale(1)'
@@ -398,7 +362,7 @@ class TenScore extends Component {
                                 </div>
                             </div>
                             <div className="content-box3">
-                                <p className="content-box3-title"><span>numéro du tirage</span><span>boules</span></p>
+                                {/* <p className="content-box3-title"><span>numéro du tirage</span><span>boules</span></p>
                                 {
                                     history.map((item, index) => {
                                         return <div key={index} className="content-box3-list">
@@ -417,7 +381,7 @@ class TenScore extends Component {
                                             </div>
                                         </div>
                                     })
-                                }
+                                } */}
                                 <p className='content-box3-page'>
                                     <span  className='pageUp' style={{backgroundImage: "url(" + process.env.PUBLIC_URL + "/images/pageUp.png)"}}
                                            onClick={()=>{
