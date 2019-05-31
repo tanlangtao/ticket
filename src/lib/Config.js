@@ -23,6 +23,11 @@ let Config = {
         let m = parseInt(Number(countDown) / 60 % 60);
         let s = parseInt(Number(countDown) / 60 % 60);
         return `${h <= 0 ? '00' : (h < 10 ? '0' + h : h)}:${m <= 0 ? '00' : (m < 10 ? '0' + m : m)}:${s <= 0 ? '00' : (s < 10 ? '0' + s : s)}`;
+    },
+    getUrlData(path){
+        var arr = {};
+        path.slice(1).split('&').map(e => e.split('=')).forEach(e => arr[e[0]] = e[1]);
+        return arr;
     }
 }
 export default Config;

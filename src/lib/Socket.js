@@ -77,8 +77,6 @@ export default class Socket {
                 break;
         }
 
-        console.log("开始连接服务器", `${proto}${host}:${port}${path || "/"}`);
-
         // 清除两个定时器
         clearInterval(this.t);
         clearTimeout(this.ct);
@@ -102,7 +100,6 @@ export default class Socket {
         this.startTimes++;
         // 开启成功回调 每次断线重连 都要重新执行的函数
         this.callback.call(this, this);
-        console.log("连接成功");
     }
 
     onmessage(e) {
@@ -114,7 +111,7 @@ export default class Socket {
                 this.event[message.event].call(this, this, message.data, message.event);
             }
         } catch (error) {
-            console.log("socket错误:", error);
+            // console.log("socket错误:", error);
         }
     }
 
@@ -149,7 +146,7 @@ export default class Socket {
                 if (this.nologin || this.error || !this.status) return false;
                 this.server.send("");
             } catch (error) {
-                console.log("心跳错误:", error);
+                // console.log("心跳错误:", error);
             }
         }, 1000 * this.config.heartInterval || 5000);
     }
@@ -168,7 +165,7 @@ export default class Socket {
             );
             return true;
         } catch (error) {
-            console.log("发送事件错误:", error);
+            // console.log("发送事件错误:", error);
             return false;
         }
     }

@@ -3,12 +3,13 @@ import '../App.less';
 import './TenScore.less'
 import Socket from "lows";
 import Config from '../lib/Config';
-
-var nowYear = new Date().getFullYear();
-var nowMonth = new Date().getMonth() + 1;
-var nowDay = new Date().getDate();
-var nowHour = new Date().getHours();
-
+import Axios from "axios";
+import SearchHistory from './Alert/SearchHistory';
+var myDate = new Date();
+var nowYear = myDate.getFullYear();
+var nowMonth = myDate.getMonth() + 1;
+var nowDay = myDate.getDate();
+var nowHour = myDate.getHours();
 var dateResults = Config.creatDate(nowYear);
 
 
@@ -24,14 +25,15 @@ class TenScore extends Component {
         this.state = {
             after_second:30-((Date.now()/1000)>>0)%30
             ,
-            results: {
-            },
+            results: null,
             selectYear: '',
             selectMonth: '',
             selectDay: '',
             selectTime: ['0','3599'],
             minPage:1,
-            maxPage:12
+            maxPage:2,
+            searchPage:1,
+            visible:false
         }
        
     }
@@ -43,35 +45,50 @@ class TenScore extends Component {
         }
         return arr;
     }
+    async getResults(startTime,endTime,page,limit){
+        
+        let loginURL = `https://backend.monacolot.com/monaco5230s?start=${startTime}&end=${endTime}&page=${page}&limit=${limit}&name=MONACO5230S`;
+        let response = await Axios.get(loginURL, { timeout: 6000}).catch(error => {
+            console.log(error)
+        });
+        
+        return response;
+    }
 
-    componentDidMount() {
+    async componentDidMount() {
+        let endTime = Math.floor(new Date().getTime()/1000);
+        let startTime = endTime - 300;
+        let response = await this.getResults(startTime,endTime,1,10);
         let socket = new Socket({
-            host: "http://lotterywebserver.0351sxzc.com",
-            port: 80,
+            host: "https://backend.monacolot.com",
+            port: '',
             path: "/lotteryWebServer"
         });
         
         socket.addListener("lottery-begin", (e, data) => {
-            console.log("begin", data);
             this.setState({
                 after_second:data.after_second
             })
         });
         
         socket.addListener("lottery-open", (e, data) => {
-            console.log("open", data);
+            let newresults = this.state.results;
+            newresults.pop();
+            newresults.unshift(data);
             this.setState({
-                results:data
+                results:newresults,
+                code:data.code.split(',')
             })
         });
-        
         socket.start();
-        
         this.setState({
             selectYear: nowYear,
             selectMonth: nowMonth,
             selectDay: nowDay,
+            results:response.data,
+            code:response.data[0].code.split(',')
         })
+        
         //定时器
         this.timer = setInterval(() => {
             this.setState({
@@ -152,34 +169,44 @@ class TenScore extends Component {
             }
             dateResults.days = days
         }
-        //关闭定时器
         // eslint-disable-next-line
     }
 
     componentWillUnmount() {
-        //关闭定时器
         clearInterval(this.timer)
-        //避免异步请求结果未返回就切换页面报错
         this.setState = (state, callback) => {
             return;
         };
     }
-
+   async searchResults(){
+       
+        let min = `${this.state.selectYear}-${this.state.selectMonth}-${this.state.selectDay} ${Config.formatDuring(this.state.selectTime[0])}`.replace(/-/g,'/');
+        let startTime = Math.floor((new Date(min).getTime())/1000);
+        let max = `${this.state.selectYear}-${this.state.selectMonth}-${this.state.selectDay} ${Config.formatDuring(this.state.selectTime[1])}`.replace(/-/g,'/');
+        let endTime = Math.floor((new Date(max).getTime())/1000);
+        document.getElementById('Rechercher').style.transform = 'scale(0.9)';
+        if(myDate.getTime()/1000-startTime > 604800){
+            alert('Désolé, Vous ne pouvez pas rechercher les données plus de 7 jours.')
+        }else{
+            window.location.hash =`SearchHistory?startTime=${startTime}&endTime=${endTime}`
+        }
+       
+    }
     getDate() {
 
     }
     shouldComponentUpdate(){
-        if(!this.results){
+        if(!this.state.results){
             return false;
         }else{
             return true;
         }
     }
     render() {
-        var {latest_time, latest_num, history} = this.state.results;
-        latest_num = '1234567891234567891234567891234567891234567891234567'
+        var results = this.state.results;
         return (
             <div className="App">
+                {this.state.visible?<SearchHistory app={this}/>:''}
                 <header className="App-header">
                     {/* eslint-disable-next-line  */}
                     <h1 className='App-logo'
@@ -252,15 +279,15 @@ class TenScore extends Component {
                             <div className='content-box1'>
                                 <h2 className='content-box1-font'>Résultats des tirages</h2>
                                 <div className='content-box1-box'>
-                                    <p className="box-row1">{latest_time}</p>
+                                    <p className="box-row1">{results?results[0].issue_time :''}</p>
                                     <div className="box-row2">
                                         <ul>
                                             {
-                                                this.splitNumber(latest_num).map((item, index) => {
+                                                results?this.state.code.map((item, index) => {
                                                     return <li key={index}
                                                                style={{backgroundImage: "url(" + process.env.PUBLIC_URL + "/images/ball.png)"}}>
                                                         <span>{item}</span></li>
-                                                })
+                                                }):""
                                             }
                                         </ul>
                                     </div>
@@ -346,14 +373,7 @@ class TenScore extends Component {
                                         }
                                     </select>
                                     <div id="Rechercher"
-                                         onMouseDown={() => {
-                                             document.getElementById('Rechercher').style.transform = 'scale(0.9)';
-                                             let min = `${this.state.selectYear}-${this.state.selectMonth}-${this.state.selectDay} ${Config.formatDuring(this.state.selectTime[0])}`.replace(/-/g,'/');
-                                            let startTime = new Date(min).getTime();
-                                             let max = `${this.state.selectYear}-${this.state.selectMonth}-${this.state.selectDay} ${Config.formatDuring(this.state.selectTime[1])}`.replace(/-/g,'/');
-                                             let endTime = new Date(max).getTime();
-                                             console.log(startTime,endTime)
-                                         }}
+                                         onMouseDown={() => this.searchResults()}
                                          onMouseUp={() => {
                                              document.getElementById('Rechercher').style.transform = 'scale(1)'
                                          }}
@@ -362,28 +382,48 @@ class TenScore extends Component {
                                 </div>
                             </div>
                             <div className="content-box3">
-                                {/* <p className="content-box3-title"><span>numéro du tirage</span><span>boules</span></p>
+                                <p className="content-box3-title"><span>numéro du tirage</span><span>boules</span></p>
                                 {
-                                    history.map((item, index) => {
-                                        return <div key={index} className="content-box3-list">
-                                            <span>{item.num}</span>
-                                            <div>
-                                                <ul>
-                                                    {
-                                                        this.splitNumber(item.result).map((item, index) => {
-                                                            return <li key={index}
-                                                                       style={{backgroundImage: "url(" + process.env.PUBLIC_URL + "/images/ball.png)"}}>
-                                                                <span>{item}</span>
-                                                            </li>
-                                                        })
-                                                    }
-                                                </ul>
+                                    this.state.results?(
+                                        this.state.minPage==1?this.state.results.slice(0,10).map((item, index) => {
+                                            let code = item.code.split(',');
+                                                return <div key={index} className="content-box3-list">
+                                                <span>{item.date}-{item.issue}</span>
+                                                <div>
+                                                    <ul>
+                                                        {
+                                                            code.map((item, index) => {
+                                                                return <li key={index}
+                                                                           style={{backgroundImage: "url(" + process.env.PUBLIC_URL + "/images/ball.png)"}}>
+                                                                    <span>{item}</span>
+                                                                </li>
+                                                            })
+                                                        }
+                                                    </ul>
+                                                </div>
                                             </div>
-                                        </div>
-                                    })
-                                } */}
+                                            }):this.state.results.slice(10).map((item, index) => {
+                                                let code = item.code.split(',');
+                                                    return <div key={index} className="content-box3-list">
+                                                    <span>{item.issue_time}</span>
+                                                    <div>
+                                                        <ul>
+                                                            {
+                                                                code.map((item, index) => {
+                                                                    return <li key={index}
+                                                                               style={{backgroundImage: "url(" + process.env.PUBLIC_URL + "/images/ball.png)"}}>
+                                                                        <span>{item}</span>
+                                                                    </li>
+                                                                })
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                })
+                                    ):''
+                                }
                                 <p className='content-box3-page'>
-                                    <span  className='pageUp' style={{backgroundImage: "url(" + process.env.PUBLIC_URL + "/images/pageUp.png)"}}
+                                    {/* <span  className='pageUp' style={{backgroundImage: "url(" + process.env.PUBLIC_URL + "/images/pageUp.png)"}}
                                            onClick={()=>{
                                                this.setState({
                                                    minPage:this.state.minPage >1 ?this.state.minPage - 1 :1
@@ -398,7 +438,8 @@ class TenScore extends Component {
                                                 minPage : this.state.minPage < this.state.maxPage ? this.state.minPage + 1 :this.state.minPage
                                             })
                                         }}
-                                    ></span></p>
+                                    ></span> */}
+                                </p>
                             </div>
                         </div>
                         <div className="content-sidebar-right">
