@@ -61,7 +61,7 @@
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "3.6.3",
     "lows": "^1.0.2",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "antd": "^3.17.0"
   },
   "scripts": {
